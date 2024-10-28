@@ -95,8 +95,7 @@ zlabel('z (m)');
 title('3D Trajectory of Particle in Penning Trap');
 grid on;
 ```
-
-output of code
+ 
 
 ![image](https://github.com/user-attachments/assets/679e28a9-f69c-4476-a6b5-0a8083e3205f)
 
@@ -118,6 +117,10 @@ output of code
 This simulation should demonstrate a stable 3D confinement, with the particle oscillating in the \( z \)-direction while moving in a circular or helical pattern in the \( xy \)-plane, characteristic of a Penning trap.
 
 ## epitrochoidal motion
+
+![image](https://github.com/user-attachments/assets/1b94f45c-2839-4198-b2f3-37dc77939db1)
+
+
 The electric field causes ions to oscillate (harmonically in the case of an ideal Penning trap) along the trap axis. The magnetic field in combination with the electric field causes charged particles to move in the radial plane with a motion which traces out an epitrochoid.
 making a simulation models a Penning trap’s confinement of a charged particle by combining magnetic and electric fields. The result is a distinctive pattern of motion that is useful for precision measurements in physics, where the trapped particle’s properties can be studied without it escaping. The simulation illustrates how carefully controlled fields can stabilize and control particle motion in three dimensions.
 
