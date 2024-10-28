@@ -96,6 +96,11 @@ title('3D Trajectory of Particle in Penning Trap');
 grid on;
 ```
 
+output of code
+
+![image](https://github.com/user-attachments/assets/679e28a9-f69c-4476-a6b5-0a8083e3205f)
+
+
 ### Explanation
 
 1. **Quadrupole Electric Field**:
