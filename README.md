@@ -117,6 +117,99 @@ output of code
 
 This simulation should demonstrate a stable 3D confinement, with the particle oscillating in the \( z \)-direction while moving in a circular or helical pattern in the \( xy \)-plane, characteristic of a Penning trap.
 
+## epitrochoidal motion
+The electric field causes ions to oscillate (harmonically in the case of an ideal Penning trap) along the trap axis. The magnetic field in combination with the electric field causes charged particles to move in the radial plane with a motion which traces out an epitrochoid.
+making a simulation models a Penning trap’s confinement of a charged particle by combining magnetic and electric fields. The result is a distinctive pattern of motion that is useful for precision measurements in physics, where the trapped particle’s properties can be studied without it escaping. The simulation illustrates how carefully controlled fields can stabilize and control particle motion in three dimensions.
+
+
+
+### Key Concepts of the Penning Trap
+
+This code simulates the motion of a charged particle (like a proton)
+
+1. **Magnetic Field Confinement**:
+   - A strong magnetic field is applied along the \( z \)-axis (the vertical axis), which forces the particle to move in circular or spiral paths in the horizontal (radial) \( xy \)-plane. This is due to the Lorentz force, which acts perpendicular to the particle’s velocity and the magnetic field, causing it to circle around the field lines.
+   
+2. **Electric Field Confinement**:
+   - A quadrupole electric field is created by applying voltage to electrodes arranged in a specific shape (usually hyperbolic). This field confines the particle along the \( z \)-axis by creating a "saddle point" in the potential, where the particle is pushed back toward the center if it tries to drift along the \( z \)-axis.
+   - The electric field stabilizes the motion along the axial direction, balancing the effect of the magnetic field and preventing the particle from spiraling out of control.
+
+3. **Combined Effect: Cyclotron and Magnetron Motion**:
+   - The particle’s motion in a Penning trap is a combination of two main components:
+     - **Modified Cyclotron Motion** (\( \omega_+ \)): This is a high-frequency circular motion in the radial plane induced by the magnetic field.
+     - **Magnetron Motion** (\( \omega_- \)): This is a slower, large-radius motion in the opposite direction that results from the combined electric and magnetic fields.
+   - Together, these two types of motion cause the particle to trace out a complex path called an **epitrochoid** in the radial plane (a flower-like or looping pattern).
+
+4. **Frequency Ratio**:
+   - The relationship between the modified cyclotron frequency and the magnetron frequency is crucial. The code aims for a specific frequency ratio (like 8:1) to create the characteristic looping pattern seen in epitrochoidal motion. This ratio is adjusted by tweaking the magnetic field strength and the electric field voltage.
+
+5. **Simulation Process**:
+   - The code simulates the particle’s movement step-by-step over time. In each step, it calculates the forces acting on the particle due to the electric and magnetic fields, updates the particle’s velocity and position, and then records the new position.
+   - The result is a trajectory showing the particle’s movement in 3D space, with a 2D plot focusing on its looping pattern in the radial plane.
+
+6. **Expected Motion**:
+   - With the right balance of electric and magnetic forces, the particle remains trapped in a stable, confined orbit. The radial pattern forms loops or flower-like shapes, characteristic of particles in a Penning trap under epitrochoidal motion.
+
+
+
+
+
+
+```
+% Constants
+q = 1.6e-19;         % Charge of particle (Coulombs)
+m = 1.67e-27;        % Mass of particle (kg), e.g., a proton
+B = 0.01;            % Magnetic field strength (Tesla)
+V0 = 0.1;            % Voltage for electric field (Volts)
+d = 0.01;            % Characteristic trap dimension (meters)
+T = 1e-4;            % Total simulation time (seconds), reduced
+dt = 5e-8;           % Larger time step to speed up simulation
+
+% Cyclotron and magnetron frequencies
+omega_c = q * B / m;  % Unmodified cyclotron frequency
+omega_plus = omega_c / 2 + sqrt((omega_c / 2)^2 - q * V0 / (m * d^2));  % Modified cyclotron
+omega_minus = omega_c / 2 - sqrt((omega_c / 2)^2 - q * V0 / (m * d^2)); % Magnetron
+
+% Check the frequency ratio
+freq_ratio = omega_plus / abs(omega_minus);
+disp(['Frequency Ratio ω+/ω- = ', num2str(freq_ratio)]);
+
+% Initial conditions
+r = [0.01; 0; 0];      % Initial position in 3D space (x, y, z)
+v = [0; 100; 0];       % Initial velocity in 3D space
+
+% Preallocate arrays for storing positions over time
+num_steps = round(T / dt);
+positions = zeros(2, num_steps);
+
+% Simulation loop
+for i = 1:num_steps
+    % Calculate forces
+    F_electric = q * [-r(1); -r(2); 2 * r(3)] * V0 / d^2;   % Quadrupole electric field
+    F_magnetic = q * cross(v, [0; 0; B]);                   % Magnetic force in 3D
+    F_total = F_electric + F_magnetic;                      % Total force
+
+    % Update velocity and position
+    a = F_total / m;                 % Acceleration
+    v = v + a * dt;                  % Update velocity in 3D
+    r = r + v * dt;                  % Update position in 3D
+
+    % Store the position for 2D plotting in the radial plane
+    positions(:, i) = r(1:2);
+end
+
+% Plot the 2D trajectory in the radial plane
+plot(positions(1, :), positions(2, :), 'b');
+xlabel('x (m)');
+ylabel('y (m)');
+title(['Radial Motion in Penning Trap (ω+/ω- = ', num2str(freq_ratio), ')']);
+axis equal;
+grid on;
+```
+
+
+![image](https://github.com/user-attachments/assets/1b4b41b5-079a-4cf4-96bc-730716aeefd3)
+
 
 ## ref
 - https://en.wikipedia.org/wiki/Rydberg_atom
